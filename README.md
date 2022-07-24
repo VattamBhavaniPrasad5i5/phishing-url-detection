@@ -1,7 +1,7 @@
 # phishing-url-detection
 I dropped dulicates because URLs are uniqic from each other
 I used some technique like tokenizer ,count vectorizer
-#TOKENIZER
+# TOKENIZER
 The tokenize module provides a lexical scanner for Python source code, implemented in Python. The scanner in this module returns comments as tokens as well, making it useful for implementing “pretty-printers”, including colorizers for on-screen displays.
 In this process i used to remove '/','.' like symbols from urls because these are common for all genuine urls and phished urls.
 After applied tokenizer all urls are free from '/' and '.'
