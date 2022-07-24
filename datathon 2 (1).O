@@ -1,0 +1,2206 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0f6492da",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "11204d07",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "te=pd.read_csv(\"testing_data.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "fb4dc598",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>http://www.skofija-novomesto.si/</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>http://ferlafashion.com/saint/www.loginalibaba...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>http://spatrendonline.hu</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>http://defensasur.com.ar</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>http://www.digitalvd.de/dvds/37399</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>http://tradewfx.com/service/admin/1drive/onedr...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25213</th>\n",
+       "      <td>http://mohaseban.org</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25214</th>\n",
+       "      <td>https://www.la-croix.com/</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25215</th>\n",
+       "      <td>http://bit.ly/2CbFTLv</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25216</th>\n",
+       "      <td>http://beautyatjessicas.com.au/wp-content/uplo...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25217</th>\n",
+       "      <td>http://www.la-taverne-des-aventuriers.com/t457...</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>25218 rows × 1 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                        http://www.skofija-novomesto.si/\n",
+       "0      http://ferlafashion.com/saint/www.loginalibaba...\n",
+       "1                               http://spatrendonline.hu\n",
+       "2                               http://defensasur.com.ar\n",
+       "3                     http://www.digitalvd.de/dvds/37399\n",
+       "4      http://tradewfx.com/service/admin/1drive/onedr...\n",
+       "...                                                  ...\n",
+       "25213                               http://mohaseban.org\n",
+       "25214                          https://www.la-croix.com/\n",
+       "25215                              http://bit.ly/2CbFTLv\n",
+       "25216  http://beautyatjessicas.com.au/wp-content/uplo...\n",
+       "25217  http://www.la-taverne-des-aventuriers.com/t457...\n",
+       "\n",
+       "[25218 rows x 1 columns]"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "te"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "af28d2f6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df=pd.read_csv(\"datathon.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "9b02518f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>https://www.peoplescollection.wales/discover/what/70/query/Merthyr</th>\n",
+       "      <th>0</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>http://yasli-sad.ru/css/chase/chaseall%20newin...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>http://denizkent.net/wp-admin/js/login.alibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>http://www.marketbiz.net/mbz/wp-includes/js/jq...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>http://guardiaoitau30horas.uniclassdispositivo...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>http://chancejumpers.com/christmas/christmas-h...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100854</th>\n",
+       "      <td>http://crop-topsnn.oucreate.com/grn/</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100855</th>\n",
+       "      <td>http://jacksonvillenursinghomelawyers.com/Driv...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100856</th>\n",
+       "      <td>http://www.smallappliance.com/product.asp?cur=...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100857</th>\n",
+       "      <td>http://www.skofija-novomesto.si/</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100858</th>\n",
+       "      <td>http://ferlafashion.com/saint/www.loginalibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>100859 rows × 2 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       https://www.peoplescollection.wales/discover/what/70/query/Merthyr  0\n",
+       "0       http://yasli-sad.ru/css/chase/chaseall%20newin...                  1\n",
+       "1       http://denizkent.net/wp-admin/js/login.alibaba...                  1\n",
+       "2       http://www.marketbiz.net/mbz/wp-includes/js/jq...                  1\n",
+       "3       http://guardiaoitau30horas.uniclassdispositivo...                  1\n",
+       "4       http://chancejumpers.com/christmas/christmas-h...                  0\n",
+       "...                                                   ...                 ..\n",
+       "100854               http://crop-topsnn.oucreate.com/grn/                  1\n",
+       "100855  http://jacksonvillenursinghomelawyers.com/Driv...                  1\n",
+       "100856  http://www.smallappliance.com/product.asp?cur=...                  0\n",
+       "100857                   http://www.skofija-novomesto.si/                  0\n",
+       "100858  http://ferlafashion.com/saint/www.loginalibaba...                  1\n",
+       "\n",
+       "[100859 rows x 2 columns]"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "dab89aab",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "te.columns=['url']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "b4c1c910",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "https://www.peoplescollection.wales/discover/what/70/query/Merthyr    0\n",
+       "0                                                                     0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "16889987",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "url    0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "te.isnull().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "ed8d863f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "100859"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.shape[0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "b4401277",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "25218"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "te.shape[0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "68f8322c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>url</th>\n",
+       "      <th>class</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>http://yasli-sad.ru/css/chase/chaseall%20newin...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>http://denizkent.net/wp-admin/js/login.alibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>http://www.marketbiz.net/mbz/wp-includes/js/jq...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>http://guardiaoitau30horas.uniclassdispositivo...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>http://chancejumpers.com/christmas/christmas-h...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100854</th>\n",
+       "      <td>http://crop-topsnn.oucreate.com/grn/</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100855</th>\n",
+       "      <td>http://jacksonvillenursinghomelawyers.com/Driv...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100856</th>\n",
+       "      <td>http://www.smallappliance.com/product.asp?cur=...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100857</th>\n",
+       "      <td>http://www.skofija-novomesto.si/</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100858</th>\n",
+       "      <td>http://ferlafashion.com/saint/www.loginalibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>100859 rows × 2 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                      url  class\n",
+       "0       http://yasli-sad.ru/css/chase/chaseall%20newin...      1\n",
+       "1       http://denizkent.net/wp-admin/js/login.alibaba...      1\n",
+       "2       http://www.marketbiz.net/mbz/wp-includes/js/jq...      1\n",
+       "3       http://guardiaoitau30horas.uniclassdispositivo...      1\n",
+       "4       http://chancejumpers.com/christmas/christmas-h...      0\n",
+       "...                                                   ...    ...\n",
+       "100854               http://crop-topsnn.oucreate.com/grn/      1\n",
+       "100855  http://jacksonvillenursinghomelawyers.com/Driv...      1\n",
+       "100856  http://www.smallappliance.com/product.asp?cur=...      0\n",
+       "100857                   http://www.skofija-novomesto.si/      0\n",
+       "100858  http://ferlafashion.com/saint/www.loginalibaba...      1\n",
+       "\n",
+       "[100859 rows x 2 columns]"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.columns=['url','class']\n",
+    "df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dbc7e625",
+   "metadata": {},
+   "source": [
+    "# finding duplicates"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "1e79f1e2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "153"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['url'].duplicated().sum()\n",
+    "#duplicate dropping in important because urls or unique from each other\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d0ee7b91",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e52f57d5",
+   "metadata": {},
+   "source": [
+    "# droping duplicated urls from dataset"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "2d73634e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "m=df.drop_duplicates('url')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "cef33ae7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "m['url'].duplicated().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "5e65ded5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "100706"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "m.shape[0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "90a692aa",
+   "metadata": {},
+   "source": [
+    "# tokenizer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "c49eebee",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b=m"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "0038df62",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t=te"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "9fef4ced",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split # spliting the data between feature and target\n",
+    "from sklearn.metrics import classification_report # gives whole report about metrics (e.g, recall,precision,f1_score,c_m)\n",
+    "from sklearn.metrics import confusion_matrix # gives info about actual and predict\n",
+    "from nltk.tokenize import RegexpTokenizer # regexp tokenizers use to split words from text  \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "1aaa1b27",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "import re"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "5ebb9641",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from nltk.tokenize import word_tokenize"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "3d00c439",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\V BHAVANI PRASAD\\anaconda3\\lib\\site-packages\\pandas\\core\\indexing.py:1773: SettingWithCopyWarning: \n",
+      "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+      "Try using .loc[row_indexer,col_indexer] = value instead\n",
+      "\n",
+      "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+      "  self._setitem_single_column(ilocs[0], value, pi)\n"
+     ]
+    }
+   ],
+   "source": [
+    "b.iloc[:,0] = b.iloc[:,0].astype('str')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "bd7a9189",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t.iloc[:,0] = t.iloc[:,0].astype('str')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "207982b5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b.iloc[:,0] = b.iloc[:,0].apply(lambda url : url.replace(\"/\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "cdc6570b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t.iloc[:,0] = t.iloc[:,0].apply(lambda url : url.replace(\"/\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "322968e1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b.iloc[:,0] = b.iloc[:,0].apply(lambda url : url.replace(\".\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "07ac83db",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t.iloc[:,0] = t.iloc[:,0].apply(lambda url : url.replace(\".\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "7fb52ab5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0         http:  yasli-sad ru css chase chaseall%20newin...\n",
+       "1         http:  denizkent net wp-admin js login alibaba...\n",
+       "2         http:  www marketbiz net mbz wp-includes js jq...\n",
+       "3         http:  guardiaoitau30horas uniclassdispositivo...\n",
+       "4         http:  chancejumpers com christmas christmas-h...\n",
+       "                                ...                        \n",
+       "100854                 http:  crop-topsnn oucreate com grn \n",
+       "100855    http:  jacksonvillenursinghomelawyers com Driv...\n",
+       "100856    http:  www smallappliance com product asp?cur=...\n",
+       "100857                     http:  www skofija-novomesto si \n",
+       "100858    http:  ferlafashion com saint www loginalibaba...\n",
+       "Name: url, Length: 100706, dtype: object"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "b.iloc[:,0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "bc5812fe",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0        http:  ferlafashion com saint www loginalibaba...\n",
+       "1                                 http:  spatrendonline hu\n",
+       "2                                 http:  defensasur com ar\n",
+       "3                       http:  www digitalvd de dvds 37399\n",
+       "4        http:  tradewfx com service admin 1drive onedr...\n",
+       "                               ...                        \n",
+       "25213                                 http:  mohaseban org\n",
+       "25214                            https:  www la-croix com \n",
+       "25215                                http:  bit ly 2CbFTLv\n",
+       "25216    http:  beautyatjessicas com au wp-content uplo...\n",
+       "25217    http:  www la-taverne-des-aventuriers com t457...\n",
+       "Name: url, Length: 25218, dtype: object"
+      ]
+     },
+     "execution_count": 28,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "t.iloc[:,0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "53387332",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b.iloc[:,0] = b.iloc[:,0].apply(lambda url : url.replace(\".\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "33c636ba",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t.iloc[:,0] = t.iloc[:,0].apply(lambda url : url.replace(\".\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "085519f0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b.iloc[:,0] = b.iloc[:,0].apply(lambda url : url.replace(\":\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "6e0a248d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t.iloc[:,0] = t.iloc[:,0].apply(lambda url : url.replace(\":\",\" \"))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "c20bbd9a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\VBHAVA~1\\AppData\\Local\\Temp/ipykernel_26304/1205193613.py:1: SettingWithCopyWarning: \n",
+      "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+      "Try using .loc[row_indexer,col_indexer] = value instead\n",
+      "\n",
+      "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+      "  b['url']=b.iloc[:,0]\n"
+     ]
+    }
+   ],
+   "source": [
+    "b['url']=b.iloc[:,0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "43d31cfb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t['url']=t.iloc[:,0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "07a4c9bd",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>url</th>\n",
+       "      <th>class</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>http   yasli-sad ru css chase chaseall%20newin...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>http   denizkent net wp-admin js login alibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>http   www marketbiz net mbz wp-includes js jq...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>http   guardiaoitau30horas uniclassdispositivo...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>http   chancejumpers com christmas christmas-h...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100854</th>\n",
+       "      <td>http   crop-topsnn oucreate com grn</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100855</th>\n",
+       "      <td>http   jacksonvillenursinghomelawyers com Driv...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100856</th>\n",
+       "      <td>http   www smallappliance com product asp?cur=...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100857</th>\n",
+       "      <td>http   www skofija-novomesto si</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100858</th>\n",
+       "      <td>http   ferlafashion com saint www loginalibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>100706 rows × 2 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                      url  class\n",
+       "0       http   yasli-sad ru css chase chaseall%20newin...      1\n",
+       "1       http   denizkent net wp-admin js login alibaba...      1\n",
+       "2       http   www marketbiz net mbz wp-includes js jq...      1\n",
+       "3       http   guardiaoitau30horas uniclassdispositivo...      1\n",
+       "4       http   chancejumpers com christmas christmas-h...      0\n",
+       "...                                                   ...    ...\n",
+       "100854               http   crop-topsnn oucreate com grn       1\n",
+       "100855  http   jacksonvillenursinghomelawyers com Driv...      1\n",
+       "100856  http   www smallappliance com product asp?cur=...      0\n",
+       "100857                   http   www skofija-novomesto si       0\n",
+       "100858  http   ferlafashion com saint www loginalibaba...      1\n",
+       "\n",
+       "[100706 rows x 2 columns]"
+      ]
+     },
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "b"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "a903b197",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>url</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>http   ferlafashion com saint www loginalibaba...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>http   spatrendonline hu</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>http   defensasur com ar</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>http   www digitalvd de dvds 37399</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>http   tradewfx com service admin 1drive onedr...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25213</th>\n",
+       "      <td>http   mohaseban org</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25214</th>\n",
+       "      <td>https   www la-croix com</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25215</th>\n",
+       "      <td>http   bit ly 2CbFTLv</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25216</th>\n",
+       "      <td>http   beautyatjessicas com au wp-content uplo...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25217</th>\n",
+       "      <td>http   www la-taverne-des-aventuriers com t457...</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>25218 rows × 1 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                     url\n",
+       "0      http   ferlafashion com saint www loginalibaba...\n",
+       "1                               http   spatrendonline hu\n",
+       "2                               http   defensasur com ar\n",
+       "3                     http   www digitalvd de dvds 37399\n",
+       "4      http   tradewfx com service admin 1drive onedr...\n",
+       "...                                                  ...\n",
+       "25213                               http   mohaseban org\n",
+       "25214                          https   www la-croix com \n",
+       "25215                              http   bit ly 2CbFTLv\n",
+       "25216  http   beautyatjessicas com au wp-content uplo...\n",
+       "25217  http   www la-taverne-des-aventuriers com t457...\n",
+       "\n",
+       "[25218 rows x 1 columns]"
+      ]
+     },
+     "execution_count": 36,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "t"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aeb93083",
+   "metadata": {},
+   "source": [
+    "# CountVectorizer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "343f5e46",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Machine Learning Packages\n",
+    "from sklearn.feature_extraction.text import CountVectorizer\n",
+    "from sklearn.feature_extraction.text import TfidfVectorizer\n",
+    "from sklearn.linear_model import LogisticRegression\n",
+    "from sklearn.model_selection import train_test_split"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "b8086a51",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#label\n",
+    "h=b['class']\n",
+    "url_list=b['url']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "c99550a2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "xt=t['url']\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "d6f6e1f0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "vectorizer = TfidfVectorizer()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "e8ed129d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "TfidfVectorizer()"
+      ]
+     },
+     "execution_count": 41,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "vectorizer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "efa595dc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "X = vectorizer.fit_transform(url_list)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "a43da43c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "Y= vectorizer.transform(xt)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "6628e9bf",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0        http   ferlafashion com saint www loginalibaba...\n",
+       "1                                 http   spatrendonline hu\n",
+       "2                                 http   defensasur com ar\n",
+       "3                       http   www digitalvd de dvds 37399\n",
+       "4        http   tradewfx com service admin 1drive onedr...\n",
+       "                               ...                        \n",
+       "25213                                 http   mohaseban org\n",
+       "25214                            https   www la-croix com \n",
+       "25215                                http   bit ly 2CbFTLv\n",
+       "25216    http   beautyatjessicas com au wp-content uplo...\n",
+       "25217    http   www la-taverne-des-aventuriers com t457...\n",
+       "Name: url, Length: 25218, dtype: object"
+      ]
+     },
+     "execution_count": 44,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "xt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "8536b498",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0         http   yasli-sad ru css chase chaseall%20newin...\n",
+       "1         http   denizkent net wp-admin js login alibaba...\n",
+       "2         http   www marketbiz net mbz wp-includes js jq...\n",
+       "3         http   guardiaoitau30horas uniclassdispositivo...\n",
+       "4         http   chancejumpers com christmas christmas-h...\n",
+       "                                ...                        \n",
+       "100854                 http   crop-topsnn oucreate com grn \n",
+       "100855    http   jacksonvillenursinghomelawyers com Driv...\n",
+       "100856    http   www smallappliance com product asp?cur=...\n",
+       "100857                     http   www skofija-novomesto si \n",
+       "100858    http   ferlafashion com saint www loginalibaba...\n",
+       "Name: url, Length: 100706, dtype: object"
+      ]
+     },
+     "execution_count": 45,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "url_list"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "f212d05e",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  (0, 167831)\t0.3168109209447769\n",
+      "  (0, 166991)\t0.1250474150642315\n",
+      "  (0, 136569)\t0.26953005719369794\n",
+      "  (0, 123436)\t0.09384733020866658\n",
+      "  (0, 100925)\t0.5074232964249369\n",
+      "  (0, 100899)\t0.13282703262069717\n",
+      "  (0, 84467)\t0.04281605114541025\n",
+      "  (0, 71102)\t0.32086284238265156\n",
+      "  (0, 65830)\t0.15713774127821648\n",
+      "  (0, 52326)\t0.23587236049164192\n",
+      "  (0, 30715)\t0.5620682163535009\n",
+      "  (0, 27567)\t0.16243118856269287\n",
+      "  (1, 84492)\t0.977839431236321\n",
+      "  (1, 84467)\t0.20935626744721106\n",
+      "  (2, 84467)\t0.1958365497486285\n",
+      "  (2, 52326)\t0.21577155306952941\n",
+      "  (2, 33824)\t0.956603722901242\n",
+      "  (3, 166991)\t0.12003702310268191\n",
+      "  (3, 84467)\t0.08220100060232789\n",
+      "  (3, 63064)\t0.665374093550872\n",
+      "  (3, 59916)\t0.6889952751707216\n",
+      "  (3, 57749)\t0.2477840491403746\n",
+      "  (4, 139825)\t0.528392020233445\n",
+      "  (4, 123436)\t0.24675036167065403\n",
+      "  (4, 117660)\t0.5949761108295617\n",
+      "  :\t:\n",
+      "  (25213, 84467)\t0.3341583127762618\n",
+      "  (25214, 166991)\t0.15116105471825714\n",
+      "  (25214, 97186)\t0.4887422651277825\n",
+      "  (25214, 84475)\t0.15232300184652564\n",
+      "  (25214, 55026)\t0.8378969018360046\n",
+      "  (25214, 52326)\t0.11405182513364949\n",
+      "  (25215, 102163)\t0.6864818907392852\n",
+      "  (25215, 84467)\t0.14655845415995158\n",
+      "  (25215, 41487)\t0.7122241453371695\n",
+      "  (25216, 166606)\t0.22019745062816115\n",
+      "  (25216, 158794)\t0.36356793947651644\n",
+      "  (25216, 141682)\t0.3238726267172245\n",
+      "  (25216, 84467)\t0.07198596437257081\n",
+      "  (25216, 53559)\t0.2640941581575196\n",
+      "  (25216, 52326)\t0.0793137100904536\n",
+      "  (25216, 39479)\t0.6033745206004778\n",
+      "  (25216, 35830)\t0.2741269487771065\n",
+      "  (25216, 7237)\t0.3177572378548701\n",
+      "  (25216, 1335)\t0.30503037778587594\n",
+      "  (25217, 166991)\t0.1496257571480845\n",
+      "  (25217, 98961)\t0.6006510710147074\n",
+      "  (25217, 97186)\t0.4837782562864184\n",
+      "  (25217, 84467)\t0.10246327870803938\n",
+      "  (25217, 58784)\t0.5996210230677841\n",
+      "  (25217, 52326)\t0.1128934348966416\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(Y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "65522f8a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  (0, 132023)\t0.35747256845617115\n",
+      "  (0, 123436)\t0.11936805958002847\n",
+      "  (0, 146377)\t0.34827082370952006\n",
+      "  (0, 159967)\t0.27990353170939\n",
+      "  (0, 8444)\t0.35068386803145957\n",
+      "  (0, 49238)\t0.35068386803145957\n",
+      "  (0, 49233)\t0.2885657803616662\n",
+      "  (0, 55349)\t0.23462685072171027\n",
+      "  (0, 135524)\t0.15760940220014077\n",
+      "  (0, 136365)\t0.34711861462595855\n",
+      "  (0, 168198)\t0.3546122869406741\n",
+      "  (0, 84467)\t0.05445939626351672\n",
+      "  (1, 52326)\t0.09279429978701464\n",
+      "  (1, 30715)\t0.36853778642783885\n",
+      "  (1, 100899)\t0.2612767231212176\n",
+      "  (1, 92003)\t0.34114199142342144\n",
+      "  (1, 28619)\t0.3123155807494397\n",
+      "  (1, 166606)\t0.2576234073859737\n",
+      "  (1, 113158)\t0.24143171952814177\n",
+      "  (1, 58531)\t0.6645543049644891\n",
+      "  (1, 84467)\t0.08422109053816282\n",
+      "  (2, 84442)\t0.12794788931221068\n",
+      "  (2, 167875)\t0.3663941886018865\n",
+      "  (2, 157674)\t0.3797579503208716\n",
+      "  (2, 91972)\t0.3663941886018865\n",
+      "  :\t:\n",
+      "  (100703, 123688)\t0.2144100007159142\n",
+      "  (100703, 13489)\t0.20929556596606105\n",
+      "  (100703, 47668)\t0.17328539959602815\n",
+      "  (100703, 127707)\t0.1755827764002145\n",
+      "  (100703, 35136)\t0.18165767501907085\n",
+      "  (100703, 166991)\t0.0573771454560743\n",
+      "  (100703, 52326)\t0.043291363456157354\n",
+      "  (100703, 84467)\t0.03929170056275114\n",
+      "  (100704, 115438)\t0.6385988006059484\n",
+      "  (100704, 142639)\t0.6385988006059484\n",
+      "  (100704, 141442)\t0.4076767888605263\n",
+      "  (100704, 166991)\t0.11125692982827386\n",
+      "  (100704, 84467)\t0.07618841853487085\n",
+      "  (100705, 71102)\t0.32086284238265156\n",
+      "  (100705, 167831)\t0.3168109209447769\n",
+      "  (100705, 100925)\t0.5074232964249369\n",
+      "  (100705, 27567)\t0.16243118856269287\n",
+      "  (100705, 65830)\t0.15713774127821648\n",
+      "  (100705, 136569)\t0.26953005719369794\n",
+      "  (100705, 166991)\t0.1250474150642315\n",
+      "  (100705, 52326)\t0.23587236049164192\n",
+      "  (100705, 30715)\t0.5620682163535009\n",
+      "  (100705, 100899)\t0.13282703262069717\n",
+      "  (100705, 123436)\t0.09384733020866658\n",
+      "  (100705, 84467)\t0.04281605114541025\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(X)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "273d7c9b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "29f2c20b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "ddef2c2c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "vectorizer = CountVectorizer()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "4178ca25",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "CountVectorizer()"
+      ]
+     },
+     "execution_count": 49,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "vectorizer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "b49ec051",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = vectorizer.fit_transform(url_list)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "28d4d9ec",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "y=vectorizer.transform(xt)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "4045e64d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(100706, 170805)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(x.shape)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "89a4710d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(25218, 170805)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(y.shape)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0a273ae6",
+   "metadata": {},
+   "source": [
+    "# Split into training and testing dataset 80/20 ratio"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "id": "7d6d7481",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(100706, 170805)\n",
+      "(25218, 170805)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(x.shape)\n",
+    "print(y.shape)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "d5adaa38",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\V BHAVANI PRASAD\\anaconda3\\lib\\site-packages\\sklearn\\linear_model\\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):\n",
+      "STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.\n",
+      "\n",
+      "Increase the number of iterations (max_iter) or scale the data as shown in:\n",
+      "    https://scikit-learn.org/stable/modules/preprocessing.html\n",
+      "Please also refer to the documentation for alternative solver options:\n",
+      "    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression\n",
+      "  n_iter_i = _check_optimize_result(\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "LogisticRegression()"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Model Building\n",
+    "#using logistic regression\n",
+    "logit = LogisticRegression()\n",
+    "logit.fit(x,h)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "1d33438e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "z=logit.predict(y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "id": "3236936d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>0</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25213</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25214</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25215</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25216</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25217</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>25218 rows × 1 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       0\n",
+       "0      1\n",
+       "1      0\n",
+       "2      0\n",
+       "3      0\n",
+       "4      1\n",
+       "...   ..\n",
+       "25213  0\n",
+       "25214  0\n",
+       "25215  1\n",
+       "25216  1\n",
+       "25217  0\n",
+       "\n",
+       "[25218 rows x 1 columns]"
+      ]
+     },
+     "execution_count": 57,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df1=pd.DataFrame(z)\n",
+    "df1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "id": "843ee7f3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df1.to_csv('prasad',index=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "id": "0ef33201",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(25218, 1)"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df1.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "id": "1d6fcaf1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.tree import DecisionTreeClassifier"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "id": "43af0aa7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dtree = DecisionTreeClassifier()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "cbf1cb7f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "DecisionTreeClassifier()"
+      ]
+     },
+     "execution_count": 67,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "dtree"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "id": "08220519",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dtree = dtree.fit(x,h)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "id": "22766d77",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "q=dtree.predict(y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 65,
+   "id": "758dd224",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>0</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25213</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25214</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25215</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25216</th>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25217</th>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>25218 rows × 1 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       0\n",
+       "0      1\n",
+       "1      0\n",
+       "2      0\n",
+       "3      0\n",
+       "4      1\n",
+       "...   ..\n",
+       "25213  0\n",
+       "25214  0\n",
+       "25215  1\n",
+       "25216  1\n",
+       "25217  0\n",
+       "\n",
+       "[25218 rows x 1 columns]"
+      ]
+     },
+     "execution_count": 65,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df2=pd.DataFrame(z)\n",
+    "df2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "id": "16e8e09c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df2.to_csv('prasad1',index=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0e62f8a0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import the regressor\n",
+    "from sklearn.ensemble import RandomForestRegressor\n",
+    " \n",
+    " # create regressor object\n",
+    "regressor = RandomForestRegressor(n_estimators = 100, random_state = 0)\n",
+    " \n",
+    "# fit the regressor with x and y data\n",
+    "regressor.fit(x, h) "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e220efa9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import f1_score"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "53c5dd75",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sklearn.metrics.f1_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "24e6bf1d",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "61ae3f6f",
+   "metadata": {},
+   "source": [
+    "# word2Vec"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "5d58c2a0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting gensim\n",
+      "  Downloading gensim-4.2.0-cp39-cp39-win_amd64.whl (23.9 MB)\n",
+      "Requirement already satisfied: scipy>=0.18.1 in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from gensim) (1.7.1)\n",
+      "Collecting Cython==0.29.28\n",
+      "  Downloading Cython-0.29.28-py2.py3-none-any.whl (983 kB)\n",
+      "Requirement already satisfied: numpy>=1.17.0 in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from gensim) (1.20.3)\n",
+      "Collecting smart-open>=1.8.1\n",
+      "  Downloading smart_open-6.0.0-py3-none-any.whl (58 kB)\n",
+      "Installing collected packages: smart-open, Cython, gensim\n",
+      "  Attempting uninstall: Cython\n",
+      "    Found existing installation: Cython 0.29.24\n",
+      "    Uninstalling Cython-0.29.24:\n",
+      "      Successfully uninstalled Cython-0.29.24\n",
+      "Successfully installed Cython-0.29.28 gensim-4.2.0 smart-open-6.0.0\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install gensim"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "e579fb30",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: nltk in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (3.6.5)\n",
+      "Requirement already satisfied: click in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from nltk) (8.0.3)\n",
+      "Requirement already satisfied: joblib in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from nltk) (1.1.0)\n",
+      "Requirement already satisfied: regex>=2021.8.3 in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from nltk) (2021.8.3)\n",
+      "Requirement already satisfied: tqdm in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from nltk) (4.62.3)\n",
+      "Requirement already satisfied: colorama in c:\\users\\v bhavani prasad\\anaconda3\\lib\\site-packages (from click->nltk) (0.4.4)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install nltk"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "eee3394a",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'http   yasli-sad ru css chase chaseall%20newinfo_ad_3 Validation step1 php?REDACTED'"
+      ]
+     },
+     "execution_count": 56,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "b['url']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "id": "235c190b",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "LookupError",
+     "evalue": "\n**********************************************************************\n  Resource \u001b[93mpunkt\u001b[0m not found.\n  Please use the NLTK Downloader to obtain the resource:\n\n  \u001b[31m>>> import nltk\n  >>> nltk.download('punkt')\n  \u001b[0m\n  For more information see: https://www.nltk.org/data.html\n\n  Attempted to load \u001b[93mtokenizers/punkt/english.pickle\u001b[0m\n\n  Searched in:\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD/nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\anaconda3\\\\nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\anaconda3\\\\share\\\\nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\anaconda3\\\\lib\\\\nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\AppData\\\\Roaming\\\\nltk_data'\n    - 'C:\\\\nltk_data'\n    - 'D:\\\\nltk_data'\n    - 'E:\\\\nltk_data'\n    - ''\n**********************************************************************\n",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mLookupError\u001b[0m                               Traceback (most recent call last)",
+      "\u001b[1;32mC:\\Users\\VBHAVA~1\\AppData\\Local\\Temp/ipykernel_22608/804848226.py\u001b[0m in \u001b[0;36m<module>\u001b[1;34m\u001b[0m\n\u001b[0;32m     20\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m     21\u001b[0m     \u001b[1;31m# tokenize the sentence into words\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m---> 22\u001b[1;33m     \u001b[1;32mfor\u001b[0m \u001b[0mj\u001b[0m \u001b[1;32min\u001b[0m \u001b[0mword_tokenize\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mi\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m     23\u001b[0m         \u001b[0mtemp\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mappend\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mj\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m     24\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\anaconda3\\lib\\site-packages\\nltk\\tokenize\\__init__.py\u001b[0m in \u001b[0;36mword_tokenize\u001b[1;34m(text, language, preserve_line)\u001b[0m\n\u001b[0;32m    127\u001b[0m     \u001b[1;33m:\u001b[0m\u001b[0mtype\u001b[0m \u001b[0mpreserve_line\u001b[0m\u001b[1;33m:\u001b[0m \u001b[0mbool\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    128\u001b[0m     \"\"\"\n\u001b[1;32m--> 129\u001b[1;33m     \u001b[0msentences\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;33m[\u001b[0m\u001b[0mtext\u001b[0m\u001b[1;33m]\u001b[0m \u001b[1;32mif\u001b[0m \u001b[0mpreserve_line\u001b[0m \u001b[1;32melse\u001b[0m \u001b[0msent_tokenize\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mtext\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mlanguage\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m    130\u001b[0m     return [\n\u001b[0;32m    131\u001b[0m         \u001b[0mtoken\u001b[0m \u001b[1;32mfor\u001b[0m \u001b[0msent\u001b[0m \u001b[1;32min\u001b[0m \u001b[0msentences\u001b[0m \u001b[1;32mfor\u001b[0m \u001b[0mtoken\u001b[0m \u001b[1;32min\u001b[0m \u001b[0m_treebank_word_tokenizer\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mtokenize\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0msent\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\anaconda3\\lib\\site-packages\\nltk\\tokenize\\__init__.py\u001b[0m in \u001b[0;36msent_tokenize\u001b[1;34m(text, language)\u001b[0m\n\u001b[0;32m    104\u001b[0m     \u001b[1;33m:\u001b[0m\u001b[0mparam\u001b[0m \u001b[0mlanguage\u001b[0m\u001b[1;33m:\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mmodel\u001b[0m \u001b[0mname\u001b[0m \u001b[1;32min\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mPunkt\u001b[0m \u001b[0mcorpus\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    105\u001b[0m     \"\"\"\n\u001b[1;32m--> 106\u001b[1;33m     \u001b[0mtokenizer\u001b[0m \u001b[1;33m=\u001b[0m \u001b[0mload\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;34mf\"tokenizers/punkt/{language}.pickle\"\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m    107\u001b[0m     \u001b[1;32mreturn\u001b[0m \u001b[0mtokenizer\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mtokenize\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mtext\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    108\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\anaconda3\\lib\\site-packages\\nltk\\data.py\u001b[0m in \u001b[0;36mload\u001b[1;34m(resource_url, format, cache, verbose, logic_parser, fstruct_reader, encoding)\u001b[0m\n\u001b[0;32m    748\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    749\u001b[0m     \u001b[1;31m# Load the resource.\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m--> 750\u001b[1;33m     \u001b[0mopened_resource\u001b[0m \u001b[1;33m=\u001b[0m \u001b[0m_open\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mresource_url\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m    751\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    752\u001b[0m     \u001b[1;32mif\u001b[0m \u001b[0mformat\u001b[0m \u001b[1;33m==\u001b[0m \u001b[1;34m\"raw\"\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\anaconda3\\lib\\site-packages\\nltk\\data.py\u001b[0m in \u001b[0;36m_open\u001b[1;34m(resource_url)\u001b[0m\n\u001b[0;32m    874\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    875\u001b[0m     \u001b[1;32mif\u001b[0m \u001b[0mprotocol\u001b[0m \u001b[1;32mis\u001b[0m \u001b[1;32mNone\u001b[0m \u001b[1;32mor\u001b[0m \u001b[0mprotocol\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;33m)\u001b[0m \u001b[1;33m==\u001b[0m \u001b[1;34m\"nltk\"\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m--> 876\u001b[1;33m         \u001b[1;32mreturn\u001b[0m \u001b[0mfind\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mpath_\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mpath\u001b[0m \u001b[1;33m+\u001b[0m \u001b[1;33m[\u001b[0m\u001b[1;34m\"\"\u001b[0m\u001b[1;33m]\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mopen\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m    877\u001b[0m     \u001b[1;32melif\u001b[0m \u001b[0mprotocol\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;33m)\u001b[0m \u001b[1;33m==\u001b[0m \u001b[1;34m\"file\"\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    878\u001b[0m         \u001b[1;31m# urllib might not use mode='rb', so handle this one ourselves:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\anaconda3\\lib\\site-packages\\nltk\\data.py\u001b[0m in \u001b[0;36mfind\u001b[1;34m(resource_name, paths)\u001b[0m\n\u001b[0;32m    581\u001b[0m     \u001b[0msep\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;34m\"*\"\u001b[0m \u001b[1;33m*\u001b[0m \u001b[1;36m70\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    582\u001b[0m     \u001b[0mresource_not_found\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;34mf\"\\n{sep}\\n{msg}\\n{sep}\\n\"\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m--> 583\u001b[1;33m     \u001b[1;32mraise\u001b[0m \u001b[0mLookupError\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mresource_not_found\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m    584\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m    585\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;31mLookupError\u001b[0m: \n**********************************************************************\n  Resource \u001b[93mpunkt\u001b[0m not found.\n  Please use the NLTK Downloader to obtain the resource:\n\n  \u001b[31m>>> import nltk\n  >>> nltk.download('punkt')\n  \u001b[0m\n  For more information see: https://www.nltk.org/data.html\n\n  Attempted to load \u001b[93mtokenizers/punkt/english.pickle\u001b[0m\n\n  Searched in:\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD/nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\anaconda3\\\\nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\anaconda3\\\\share\\\\nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\anaconda3\\\\lib\\\\nltk_data'\n    - 'C:\\\\Users\\\\V BHAVANI PRASAD\\\\AppData\\\\Roaming\\\\nltk_data'\n    - 'C:\\\\nltk_data'\n    - 'D:\\\\nltk_data'\n    - 'E:\\\\nltk_data'\n    - ''\n**********************************************************************\n"
+     ]
+    }
+   ],
+   "source": [
+    "from nltk.tokenize import  word_tokenize\n",
+    "import warnings\n",
+    " \n",
+    "warnings.filterwarnings(action = 'ignore')\n",
+    " \n",
+    "import gensim\n",
+    "from gensim.models import Word2Vec\n",
+    " \n",
+    "#  Reads ‘alice.txt’ file\n",
+    "\n",
+    "s =b['url']\n",
+    " \n",
+    "\n",
+    " \n",
+    "data = []\n",
+    " \n",
+    "# iterate through each sentence in the file\n",
+    "for i in s:\n",
+    "    temp = []\n",
+    "     \n",
+    "    # tokenize the sentence into words\n",
+    "    for j in word_tokenize(i):\n",
+    "        temp.append(j.lower())\n",
+    " \n",
+    "    data.append(temp)\n",
+    " \n",
+    "# Create CBOW model\n",
+    "model1 = gensim.models.Word2Vec(data, min_count = 1,vector_size = 100, window = 5)\n",
+    " \n",
+    "# Print results\n",
+    "print(\"Cosine similarity between 'alice' \" +\"and 'wonderland' - CBOW : \",model1.wv.similarity('alice', 'wonderland'))\n",
+    "     \n",
+    "print(\"Cosine similarity between 'alice' \" +\"and 'machines' - CBOW : \",model1.wv.similarity('alice', 'machines'))\n",
+    " \n",
+    "# Create Skip Gram model\n",
+    "model2 = gensim.models.Word2Vec(data, min_count = 1, vector_size = 100,window = 5, sg = 1)\n",
+    " \n",
+    "# Print results\n",
+    "print(\"Cosine similarity between 'alice' \" +\"and 'wonderland' - Skip Gram : \",model2.wv.similarity('alice', 'wonderland'))\n",
+    "     \n",
+    "print(\"Cosine similarity between 'alice' \" +\"and 'machines' - Skip Gram : \",model2.wv.similarity('alice', 'machines'))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "id": "1e7bf437",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>url</th>\n",
+       "      <th>class</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>https   www peoplescollection wales discover w...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>http   yasli-sad ru css chase chaseall%20newin...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>http   denizkent net wp-admin js login alibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>http   www marketbiz net mbz wp-includes js jq...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>http   guardiaoitau30horas uniclassdispositivo...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100855</th>\n",
+       "      <td>http   crop-topsnn oucreate com grn</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100856</th>\n",
+       "      <td>http   jacksonvillenursinghomelawyers com Driv...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100857</th>\n",
+       "      <td>http   www smallappliance com product asp?cur=...</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100858</th>\n",
+       "      <td>http   www skofija-novomesto si</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>100859</th>\n",
+       "      <td>http   ferlafashion com saint www loginalibaba...</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>100707 rows × 2 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                      url  class\n",
+       "0       https   www peoplescollection wales discover w...      0\n",
+       "1       http   yasli-sad ru css chase chaseall%20newin...      1\n",
+       "2       http   denizkent net wp-admin js login alibaba...      1\n",
+       "3       http   www marketbiz net mbz wp-includes js jq...      1\n",
+       "4       http   guardiaoitau30horas uniclassdispositivo...      1\n",
+       "...                                                   ...    ...\n",
+       "100855               http   crop-topsnn oucreate com grn       1\n",
+       "100856  http   jacksonvillenursinghomelawyers com Driv...      1\n",
+       "100857  http   www smallappliance com product asp?cur=...      0\n",
+       "100858                   http   www skofija-novomesto si       0\n",
+       "100859  http   ferlafashion com saint www loginalibaba...      1\n",
+       "\n",
+       "[100707 rows x 2 columns]"
+      ]
+     },
+     "execution_count": 60,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "b"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2ef093b5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
