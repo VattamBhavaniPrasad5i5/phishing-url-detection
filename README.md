@@ -1,4 +1,5 @@
 # PHISHING-URL-DETECTION
+The purpose of Phishing Domain Detection is detecting phishing domain names. Therefore, passive queries related to the domain name, which we want to classify as phishing or not, provide useful information to us. 
 I dropped dulicates because URLs are uniqic from each other
 I used some technique like tokenizer ,count vectorizer
 # TOKENIZER
